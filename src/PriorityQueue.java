@@ -26,6 +26,25 @@ public class PriorityQueue<E extends Comparable<E>> {
      */
     public void add(E element) {
 
+        int index = myHeap.size();
+        int depth = (int) (Math.log(index) / Math.log(2));
+
+        myHeap.set(index, element);
+
+        for(int i = index; i > 0; i -= (2^depth)) {
+
+            int temp = i - 2^depth;
+
+            if(temp < 0) temp = 0;
+            if(myHeap.get(index) < myHeap.get(temp)) {
+
+                swap(index, temp);
+                depth--;
+
+            }
+
+        }
+
     }
 
     /**
@@ -36,6 +55,11 @@ public class PriorityQueue<E extends Comparable<E>> {
      * @param posTwo the second element's position in the queue
      */
     private void swap(int posOne, int posTwo) {
+
+        E temp1 = myHeap.get(posOne);
+        E temp2 = myHeap.get(posTwo);
+        myHeap.set(posOne, temp2);
+        myHeap.set(posTwo, temp1);
 
     }
 
