@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-
+import java.util.*;
 
 /**
  * This class represents a Priority Queue (heap) based on the ordering
@@ -7,22 +6,19 @@ import java.util.ArrayList;
  * mean "higher" priority.
  *
  * @param <E> the type of elements in the queue
- * @author
+ * @author Marie Viita
  */
 public class PriorityQueue<E extends Comparable<E>> {
 
-
     private ArrayList<E> myHeap; //array representation of the heap
     private int size = 0;
-
 
     /**
      * Creates an empty Priority Queue
      */
     public PriorityQueue() {
-        myHeap = new ArrayList<E>();
+        myHeap = new ArrayList<>();
     }
-
 
     /**
      * Adds the element to the priority queue
@@ -31,51 +27,42 @@ public class PriorityQueue<E extends Comparable<E>> {
      */
     public void add(E element) {
 
-
         if (size == 0) {
 
-
-            myHeap.set(0, element);
-
+            myHeap.add(element);
+            size++;
 
         } else {
 
-
             size++;
 
+            int index = size - 1;
 
-            int index = size;
+            myHeap.add(element);
 
+            while(index >= 0) {
 
-            myHeap.set(index, element);
+                int temp = index - (index / 2 + 1);
 
+                if(temp < 0) temp = 0;
 
-            for (int i = index; i > 0; i -= (i / 2 + 1)) {
+                if (myHeap.get(index).compareTo(myHeap.get(temp)) < 0) {
 
+                    swap(index, temp);
 
-                int temp = i - (i / 2 + 1);
+                    index = temp;
 
+                } else {
 
-                if (temp < 0) temp = 0;
-
-
-                if (myHeap.get(i).compareTo(myHeap.get(temp)) < 0) {
-
-
-                    swap(i, temp);
-
+                    index = -1;
 
                 }
 
-
             }
-
 
         }
 
-
     }
-
 
     /**
      * Swaps two elements in the queue.
@@ -95,36 +82,27 @@ public class PriorityQueue<E extends Comparable<E>> {
 
     }
 
-
     /**
-     * Returns whether or not the element is in the heap
+     * Returns whether the element is in the heap
      *
      * @param element the element to be searched for
      * @return true if the element is in the queue, false otherwise
      */
     public boolean contains(E element) {
 
-
-        for (int i = 0; i < myHeap.size(); i++) {
-
+        for (int i = 0; i < size; i++) {
 
             if (myHeap.get(i).equals(element)) {
 
-
                 return true;
-
 
             }
 
-
         }
-
 
         return false;
 
-
     }
-
 
     /**
      * Returns the element of highest priority, null if queue is empty.
@@ -134,13 +112,10 @@ public class PriorityQueue<E extends Comparable<E>> {
      */
     public E peek() {
 
-
-        if (myHeap.size() != 0) return myHeap.get(0);
+        if (!myHeap.isEmpty()) return myHeap.get(0);
         return null;
 
-
     }
-
 
     /**
      * Removes and returns the element of highest priority,
@@ -150,44 +125,32 @@ public class PriorityQueue<E extends Comparable<E>> {
      */
     public E poll() {
 
-
         if (size == 0) {
-
 
             return null;
 
-
         }
-
 
         E temp = myHeap.get(0);
 
-
         myHeap.set(0, null);
 
-
         if (size == 1) {
-
 
             size--;
             return temp;
 
-
         }
 
-
-        swap(0, size);
         size--;
 
+        swap(0, size);
 
         heapify(0);
 
-
         return temp;
 
-
     }
-
 
     /**
      * Will "sift down" the element at the given position
@@ -279,7 +242,6 @@ public class PriorityQueue<E extends Comparable<E>> {
 
     }
 
-
     /**
      * Finds and removes the given element from the queue.
      * Returns true if an element was deleted from the queue,
@@ -338,7 +300,6 @@ public class PriorityQueue<E extends Comparable<E>> {
 
     }
 
-
     /**
      * Returns the number of elements in the queue
      *
@@ -352,7 +313,6 @@ public class PriorityQueue<E extends Comparable<E>> {
 
     }
 
-
     /**
      * Returns the String representation of the heap
      * (by the order of list, each element separated
@@ -362,24 +322,14 @@ public class PriorityQueue<E extends Comparable<E>> {
      */
     public String toString() {
 
-
-        String temp = "";
-
-
         for (int i = 0; i < size; i++) {
 
-
-            temp += myHeap.get(i);
-            temp += " ";
-
-
+            System.out.print(myHeap.get(i) + " ");
         }
 
-
-        return temp;
+        return "";
 
     }
-
 
     /**
      * Main method - contains console program used
@@ -389,7 +339,96 @@ public class PriorityQueue<E extends Comparable<E>> {
      */
     public static void main(String[] args) {
 
-    }
+        Scanner scanner = new Scanner(System.in);
 
+        PriorityQueue<String> pQ = new PriorityQueue<>();
+
+        boolean loop = true;
+
+        while (loop) {
+
+            System.out.println();
+            System.out.println("What would you like to do?");
+            System.out.println("[1] End program");
+            System.out.println("[2] Add to queue");
+            System.out.println("[3] Check if queue contains value");
+            System.out.println("[4] Peek at queue");
+            System.out.println("[5] Remove first in queue");
+            System.out.println("[6] Remove a specific element");
+            System.out.println("[7] Get length of queue");
+            System.out.println("[8] See queue");
+            System.out.println();
+
+            int num = Integer.valueOf(scanner.next());
+
+            switch (num) {
+
+                case 1:
+                    loop = false;
+                    break;
+
+                case 2:
+                    System.out.println();
+                    System.out.println("What value are you adding?");
+                    System.out.println();
+                    String add = String.valueOf(scanner.next());
+                    pQ.add(add);
+                    System.out.println();
+                    System.out.println("Added " + add);
+                    break;
+
+                case 3:
+                    System.out.println();
+                    System.out.println("What value?");
+                    System.out.println();
+                    String value = String.valueOf(scanner.next());
+                    System.out.println();
+                    System.out.println(pQ.contains(value));
+                    break;
+
+                case 4:
+                    System.out.println();
+                    System.out.println("Next in queue is " + pQ.peek());
+                    break;
+
+                case 5:
+                    System.out.println();
+                    System.out.println("Removed " + pQ.poll());
+                    break;
+
+                case 6:
+                    System.out.println();
+                    System.out.println("What element?");
+                    System.out.println();
+                    String element = String.valueOf(scanner.next());
+                    System.out.println();
+                    if (pQ.remove(element)) {
+                        System.out.println("Removed " + element);
+                    } else {
+
+                        System.out.println(element + " is not in queue");
+
+                    }
+                    break;
+
+                case 7:
+                    System.out.println();
+                    System.out.println(pQ.size());
+                    break;
+
+                case 8:
+                    System.out.println();
+                    System.out.println(pQ);
+                    break;
+
+                default:
+                    System.out.println();
+                    System.out.println("Try again");
+
+            }
+
+        }
+
+    }
 
 }
