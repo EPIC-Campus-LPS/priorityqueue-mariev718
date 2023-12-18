@@ -40,11 +40,11 @@ public class PriorityQueue<E extends Comparable<E>> {
 
             myHeap.add(element);
 
-            while(index >= 0) {
+            while (index >= 0) {
 
                 int temp = index - (index / 2 + 1);
 
-                if(temp < 0) temp = 0;
+                if (temp < 0) temp = 0;
 
                 if (myHeap.get(index).compareTo(myHeap.get(temp)) < 0) {
 
